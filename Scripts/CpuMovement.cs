@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +13,7 @@ public class CpuMovement : MonoBehaviour
     private Quaternion lookLeft;
     private Quaternion lookRight;
     private Vector3 moveDirection = Vector3.zero;
+    public int actionSelect;
 
     void Start()
     {
@@ -22,6 +23,27 @@ public class CpuMovement : MonoBehaviour
 
         lookRight = transform.rotation;
         lookLeft = lookRight * Quaternion.Euler(0, 180, 0);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("Player"))
+        {
+            RandomAttack();
+        }
+    }
+
+    void RandomAttack()
+    {
+        actionSelect = Random.Range(1, 3);
+        if(actionSelect == 1)
+        {
+            anim.SetTrigger("Punching");
+        }
+        else if(actionSelect == 2)
+        {
+            anim.SetTrigger("Kicking");
+        }
     }
 
     void Update()
@@ -35,7 +57,7 @@ public class CpuMovement : MonoBehaviour
 
             moveDirection = new Vector3(0f, 0f, Input.GetAxis("Horizontal") * speed);
 
-            if (Input.GetButtonDown("Jump"))
+            /*if (Input.GetButtonDown("Jump"))
             {
                 anim.SetTrigger("IsJumping");
                 moveDirection.y = jumpSpeed;
@@ -91,10 +113,13 @@ public class CpuMovement : MonoBehaviour
                     moveDirection.y = jumpSpeed;
                 }
             }
+            */
+
+
 
         }
 
-        else if(controller.isGrounded == false)
+        /*else if(controller.isGrounded == false)
         {
             anim.SetBool("IsRunning", false);
             anim.SetBool("IsFalling", true);
@@ -112,5 +137,5 @@ public class CpuMovement : MonoBehaviour
 
         moveDirection.y -= gravity * Time.deltaTime;
         controller.Move(moveDirection * Time.deltaTime);
-    }
+    */}
 }
